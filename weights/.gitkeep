@@ -1,0 +1,5 @@
+# Trained PyTorch checkpoints (.pt) and exported ONNX models (.onnx) are saved here:
+# - mlp.pt       -> mlp.onnx
+# - cnn.pt       -> cnn.onnx
+# - resnet18.pt  -> resnet18.onnx
+# Note: .dockerignore excludes *.pt so only the lightweight *.onnx files are packaged into the AWS Lambda image.

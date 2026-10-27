@@ -1,0 +1,12 @@
+FROM pytorch/pytorch:2.2.2-cuda12.1-cudnn8-runtime
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY configs/ /app/configs/
+COPY src/ /app/src/
+
+CMD ["python", "-m", "src.training.train", "--model", "resnet18", "--dataset", "cifake"]
+

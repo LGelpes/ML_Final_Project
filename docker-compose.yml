@@ -1,0 +1,27 @@
+services:
+  trainer:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    container_name: ml-gpu-trainer
+    gpus: all
+    volumes:
+      - ./src:/app/src
+      - ./configs:/app/configs
+      - ./data:/app/data
+      - ./weights:/app/weights
+    command: python -m src.training.train --model resnet18 --dataset cifake
+
+  api-local:
+    build:
+      context: .
+      dockerfile: Dockerfile.train
+    container_name: ml-local-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src:/app/src
+      - ./configs:/app/configs
+      - ./weights:/app/weights
+    command: uvicorn src.api.app:app --host 0.0.0.0 --port 8000 --reload
+

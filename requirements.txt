@@ -1,0 +1,17 @@
+# Core Deep Learning (GPU Training, Evaluation & ONNX Export)
+torch>=2.1.0
+torchvision>=0.16.0
+onnx>=1.15.0
+onnxruntime>=1.17.0
+numpy>=1.24.0,<2.0.0
+Pillow>=10.0.0
+scikit-learn>=1.3.0
+pyyaml>=6.0.1
+tqdm>=4.66.0
+
+# API & Local Testing
+fastapi>=0.110.0
+mangum>=0.17.0
+pydantic>=2.6.0
+python-multipart>=0.0.9
+uvicorn[standard]>=0.27.0

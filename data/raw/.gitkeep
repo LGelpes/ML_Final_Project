@@ -1,0 +1,4 @@
+# Place CIFAKE and ArtiFact raw datasets inside this folder:
+# data/raw/cifake/{train,test}/{REAL,FAKE}
+# data/raw/artifact/{train,val,test}/{REAL,FAKE}
+

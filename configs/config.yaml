@@ -1,0 +1,43 @@
+project:
+  name: "synthetic-image-detection"
+  classes: ["REAL", "FAKE"]
+  num_classes: 2
+  seed: 42
+
+datasets:
+  cifake:
+    root_dir: "data/raw/cifake"
+    image_size: 32
+    jpeg_quality: 90
+  artifact:
+    root_dir: "data/raw/artifact"
+    image_size: 224
+    jpeg_quality: 90
+
+training:
+  device: "cuda"
+  mixed_precision: true
+  batch_size: 64
+  epochs: 20
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  num_workers: 4
+  early_stopping_patience: 5
+
+models:
+  mlp:
+    hidden_dims: [512, 256, 128]
+    dropout: 0.3
+    weights_path: "weights/mlp.pt"
+    onnx_path: "weights/mlp.onnx"
+  cnn:
+    base_channels: 32
+    dropout: 0.4
+    weights_path: "weights/cnn.pt"
+    onnx_path: "weights/cnn.onnx"
+  resnet18:
+    pretrained: true
+    freeze_backbone: false
+    dropout: 0.3
+    weights_path: "weights/resnet18.pt"
+    onnx_path: "weights/resnet18.onnx"

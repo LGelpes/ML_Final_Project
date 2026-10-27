@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Datasets (keep directory structure via .gitkeep)
+data/raw/*
+!data/raw/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Model weights (keep directory structure; comment out *.onnx if committing final ONNX models)
+weights/*.pt
+weights/*.pth
+weights/*.onnx
+weights/*.onnx.data
+!weights/.gitkeep
+
+# Logs and experiment tracking
+logs/
+runs/
+*.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
