@@ -31,7 +31,7 @@ def create_dataset(dataset_root: str | Path, split: str, image_size: int = 32, i
     if limit and limit < len(ds):
         idx = sorted(np.random.default_rng(seed).choice(len(ds), limit, replace=False).tolist())
         sub = Subset(ds, idx)
-        sub.sources = [ds.sources[i] for i in idx]
+        sub.sources = [source_of(ds.samples[i][0]) for i in idx]
         return sub
     return ds
 
