@@ -2,26 +2,27 @@ import torch.nn as nn
 
 
 class CustomCNN(nn.Module):
-    def __init__(self, num_classes: int = 2, dropout: float = 0.4):
+    def __init__(self, num_classes: int = 2, dropout: float = 0.4, base_channels: int = 32):
         super().__init__()
+        c = base_channels
         self.features = nn.Sequential(
-            nn.Conv2d(3, 32, kernel_size=3, padding=1),
-            nn.BatchNorm2d(32),
+            nn.Conv2d(3, c, kernel_size=3, padding=1),
+            nn.BatchNorm2d(c),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            nn.Conv2d(32, 64, kernel_size=3, padding=1),
-            nn.BatchNorm2d(64),
+            nn.Conv2d(c, c * 2, kernel_size=3, padding=1),
+            nn.BatchNorm2d(c * 2),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            nn.Conv2d(64, 128, kernel_size=3, padding=1),
-            nn.BatchNorm2d(128),
+            nn.Conv2d(c * 2, c * 4, kernel_size=3, padding=1),
+            nn.BatchNorm2d(c * 4),
             nn.ReLU(),
             nn.MaxPool2d(2),
 
-            nn.Conv2d(128, 256, kernel_size=3, padding=1),
-            nn.BatchNorm2d(256),
+            nn.Conv2d(c * 4, c * 8, kernel_size=3, padding=1),
+            nn.BatchNorm2d(c * 8),
             nn.ReLU(),
             nn.AdaptiveAvgPool2d((1, 1)),
         )
@@ -29,7 +30,7 @@ class CustomCNN(nn.Module):
         self.classifier = nn.Sequential(
             nn.Flatten(),
             nn.Dropout(dropout),
-            nn.Linear(256, num_classes),
+            nn.Linear(c * 8, num_classes),
         )
 
     def forward(self, x):
