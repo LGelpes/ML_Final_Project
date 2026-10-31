@@ -46,6 +46,7 @@ def make_loader(dataset, batch_size: int, shuffle: bool, num_workers: int = 0, s
         drop_last=shuffle and len(dataset) > batch_size,
         num_workers=num_workers,
         pin_memory=torch.cuda.is_available(),
+        persistent_workers=num_workers > 0,
         generator=generator,
     )
 
