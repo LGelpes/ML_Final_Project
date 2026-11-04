@@ -1,0 +1,25 @@
+{
+  "best_epoch": 29,
+  "val": {
+    "accuracy": 0.871,
+    "f1": 0.8683,
+    "precision": 0.8829,
+    "recall": 0.8542,
+    "roc_auc": 0.9468,
+    "n": 9960,
+    "gpu_mb": 38.8,
+    "loss": 0.29684
+  },
+  "epochs_run": 30,
+  "stopped_early": false,
+  "train_minutes": 2.79,
+  "imgs_per_sec": 17743.7,
+  "gpu_mb": 38.8,
+  "name": "cifake-mlp-lr3e-4",
+  "model": "mlp",
+  "dataset": "cifake",
+  "params": 1739650,
+  "trainable": 1739650,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

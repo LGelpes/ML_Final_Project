@@ -1,0 +1,53 @@
+# ResNet-18 solo se corre con ArtiFact: con CIFAKE (32x32) no tiene sentido y train.py lo rechaza.
+runs:
+  # 1. Línea de base de cada modelo (ResNet-18 solo en ArtiFact)
+  - {name: cifake-mlp-base, model: mlp, dataset: cifake}
+  - {name: cifake-cnn-base, model: cnn, dataset: cifake}
+  - {name: artifact-mlp-base, model: mlp, dataset: artifact}
+  - {name: artifact-cnn-base, model: cnn, dataset: artifact}
+  - {name: artifact-resnet18-base, model: resnet18, dataset: artifact, set: {learning_rate: 0.0003}}
+
+
+  # 2. Tasa de aprendizaje
+  - {name: cifake-mlp-lr3e-4, model: mlp, dataset: cifake, set: {learning_rate: 0.0003}}
+  - {name: cifake-mlp-lr3e-3, model: mlp, dataset: cifake, set: {learning_rate: 0.003}}
+  - {name: cifake-cnn-lr3e-4, model: cnn, dataset: cifake, set: {learning_rate: 0.0003}}
+  - {name: cifake-cnn-lr3e-3, model: cnn, dataset: cifake, set: {learning_rate: 0.003}}
+  - {name: artifact-mlp-lr3e-4, model: mlp, dataset: artifact, set: {learning_rate: 0.0003}}
+  - {name: artifact-mlp-lr3e-3, model: mlp, dataset: artifact, set: {learning_rate: 0.003}}
+  - {name: artifact-cnn-lr3e-4, model: cnn, dataset: artifact, set: {learning_rate: 0.0003}}
+  - {name: artifact-cnn-lr3e-3, model: cnn, dataset: artifact, set: {learning_rate: 0.003}}
+  - {name: artifact-resnet18-lr1e-4, model: resnet18, dataset: artifact, set: {learning_rate: 0.0001}}
+  - {name: artifact-resnet18-lr1e-3, model: resnet18, dataset: artifact, set: {learning_rate: 0.001}}
+
+
+  # 3. Regularización
+  - {name: cifake-mlp-wd1e-2, model: mlp, dataset: cifake, set: {weight_decay: 0.01}}
+  - {name: cifake-cnn-wd1e-2, model: cnn, dataset: cifake, set: {weight_decay: 0.01}}
+  - {name: artifact-mlp-wd1e-2, model: mlp, dataset: artifact, set: {weight_decay: 0.01}}
+  - {name: artifact-cnn-wd1e-2, model: cnn, dataset: artifact, set: {weight_decay: 0.01}}
+  - {name: artifact-resnet18-wd1e-2, model: resnet18, dataset: artifact, set: {learning_rate: 0.0003, weight_decay: 0.01}}
+  - {name: cifake-mlp-drop0.5, model: mlp, dataset: cifake, set: {dropout: 0.5}}
+  - {name: cifake-cnn-drop0.2, model: cnn, dataset: cifake, set: {dropout: 0.2}}
+  - {name: artifact-mlp-drop0.5, model: mlp, dataset: artifact, set: {dropout: 0.5}}
+  - {name: artifact-cnn-drop0.2, model: cnn, dataset: artifact, set: {dropout: 0.2}}
+  - {name: artifact-resnet18-ls0.1, model: resnet18, dataset: artifact, set: {learning_rate: 0.0003, label_smoothing: 0.1}}
+
+
+  # 4. Variantes de arquitectura
+  - {name: cifake-cnn-c64, model: cnn, dataset: cifake, set: {base_channels: 64}}
+  - {name: artifact-cnn-c64, model: cnn, dataset: artifact, set: {base_channels: 64}}
+  - {name: artifact-resnet18-frozen, model: resnet18, dataset: artifact, set: {learning_rate: 0.001, freeze_backbone: true}}
+
+
+  # 5. Repeticiones con otra semilla, para informar la variación entre corridas
+  - {name: cifake-mlp-base-s1, model: mlp, dataset: cifake, set: {seed: 1}}
+  - {name: cifake-cnn-base-s1, model: cnn, dataset: cifake, set: {seed: 1}}
+  - {name: artifact-mlp-base-s1, model: mlp, dataset: artifact, set: {seed: 1}}
+  - {name: artifact-cnn-base-s1, model: cnn, dataset: artifact, set: {seed: 1}}
+  - {name: artifact-resnet18-base-s1, model: resnet18, dataset: artifact, set: {learning_rate: 0.0003, seed: 1}}
+  - {name: cifake-mlp-base-s2, model: mlp, dataset: cifake, set: {seed: 2}}
+  - {name: cifake-cnn-base-s2, model: cnn, dataset: cifake, set: {seed: 2}}
+  - {name: artifact-mlp-base-s2, model: mlp, dataset: artifact, set: {seed: 2}}
+  - {name: artifact-cnn-base-s2, model: cnn, dataset: artifact, set: {seed: 2}}
+  - {name: artifact-resnet18-base-s2, model: resnet18, dataset: artifact, set: {learning_rate: 0.0003, seed: 2}}

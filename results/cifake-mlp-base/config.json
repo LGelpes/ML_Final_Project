@@ -1,0 +1,30 @@
+{
+  "model": "mlp",
+  "dataset": "cifake",
+  "image_size": 32,
+  "jpeg_quality": 90,
+  "processed_dir": "D:\\Nacho\\Desktop\\ML_Final_Project\\data\\processed\\cifake",
+  "seed": 42,
+  "model_args": {
+    "hidden_dims": [
+      512,
+      256,
+      128
+    ],
+    "dropout": 0.3,
+    "pool": 1
+  },
+  "train": {
+    "device": "cuda",
+    "mixed_precision": true,
+    "batch_size": 128,
+    "epochs": 30,
+    "learning_rate": 0.001,
+    "weight_decay": 0.0001,
+    "warmup_epochs": 1,
+    "label_smoothing": 0.0,
+    "num_workers": 6,
+    "early_stopping_patience": 5,
+    "limit": null
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "best_epoch": 8,
+  "val": {
+    "accuracy": 0.6615,
+    "f1": 0.6413,
+    "precision": 0.682,
+    "recall": 0.6053,
+    "roc_auc": 0.7213,
+    "n": 99995,
+    "gpu_mb": 1065.5,
+    "loss": 0.61868
+  },
+  "epochs_run": 13,
+  "stopped_early": true,
+  "train_minutes": 49.23,
+  "imgs_per_sec": 3593.6,
+  "gpu_mb": 1065.5,
+  "name": "artifact-resnet18-frozen",
+  "model": "resnet18",
+  "dataset": "artifact",
+  "params": 11177538,
+  "trainable": 1026,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

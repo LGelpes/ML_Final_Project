@@ -1,0 +1,25 @@
+{
+  "best_epoch": 29,
+  "val": {
+    "accuracy": 0.9682,
+    "f1": 0.9681,
+    "precision": 0.9672,
+    "recall": 0.969,
+    "roc_auc": 0.9955,
+    "n": 9960,
+    "gpu_mb": 64.3,
+    "loss": 0.10653
+  },
+  "epochs_run": 30,
+  "stopped_early": false,
+  "train_minutes": 2.88,
+  "imgs_per_sec": 17494.0,
+  "gpu_mb": 64.3,
+  "name": "cifake-cnn-base-s2",
+  "model": "cnn",
+  "dataset": "cifake",
+  "params": 389890,
+  "trainable": 389890,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

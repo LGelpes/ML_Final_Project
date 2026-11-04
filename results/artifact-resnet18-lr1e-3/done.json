@@ -1,0 +1,25 @@
+{
+  "best_epoch": 25,
+  "val": {
+    "accuracy": 0.9053,
+    "f1": 0.9047,
+    "precision": 0.9105,
+    "recall": 0.8989,
+    "roc_auc": 0.9674,
+    "n": 99995,
+    "gpu_mb": 1472.0,
+    "loss": 0.62991
+  },
+  "epochs_run": 30,
+  "stopped_early": true,
+  "train_minutes": 196.33,
+  "imgs_per_sec": 2077.4,
+  "gpu_mb": 1472.0,
+  "name": "artifact-resnet18-lr1e-3",
+  "model": "resnet18",
+  "dataset": "artifact",
+  "params": 11177538,
+  "trainable": 11177538,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

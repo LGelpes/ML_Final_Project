@@ -1,0 +1,25 @@
+{
+  "best_epoch": 27,
+  "val": {
+    "accuracy": 0.6186,
+    "f1": 0.5876,
+    "precision": 0.6395,
+    "recall": 0.5436,
+    "roc_auc": 0.6637,
+    "n": 99995,
+    "gpu_mb": 415.2,
+    "loss": 0.64712
+  },
+  "epochs_run": 30,
+  "stopped_early": false,
+  "train_minutes": 107.52,
+  "imgs_per_sec": 3733.4,
+  "gpu_mb": 415.2,
+  "name": "artifact-mlp-wd1e-2",
+  "model": "mlp",
+  "dataset": "artifact",
+  "params": 4006786,
+  "trainable": 4006786,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

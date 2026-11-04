@@ -133,7 +133,7 @@ def main(argv=None):
     parser.add_argument("command", choices=list(COMMANDS))
     parser.add_argument("--zip", required=True)
     parser.add_argument("--out", default=str(BASE_DIR / cfg["datasets"]["artifact"]["processed_dir"]))
-    parser.add_argument("--per-class", type=int, default=75000)
+    parser.add_argument("--per-class", type=int, default=500000)
     parser.add_argument("--holdout", nargs="*", default=[])
     parser.add_argument("--holdout-per-source", type=int, default=2000)
     parser.add_argument("--force", action="store_true", help="reemplaza los splits ya preparados")

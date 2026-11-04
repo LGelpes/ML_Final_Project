@@ -1,0 +1,3 @@
+split,source,label,n,accuracy,mean_prob_ai
+test,cifake-fake,FAKE,9962,0.8744,0.8342
+test,cifake-real,REAL,10000,0.8774,0.16

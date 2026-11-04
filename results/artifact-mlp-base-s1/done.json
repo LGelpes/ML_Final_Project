@@ -1,0 +1,25 @@
+{
+  "best_epoch": 28,
+  "val": {
+    "accuracy": 0.6168,
+    "f1": 0.5822,
+    "precision": 0.64,
+    "recall": 0.534,
+    "roc_auc": 0.6614,
+    "n": 99995,
+    "gpu_mb": 415.2,
+    "loss": 0.64796
+  },
+  "epochs_run": 30,
+  "stopped_early": false,
+  "train_minutes": 108.61,
+  "imgs_per_sec": 3702.4,
+  "gpu_mb": 415.2,
+  "name": "artifact-mlp-base-s1",
+  "model": "mlp",
+  "dataset": "artifact",
+  "params": 4006786,
+  "trainable": 4006786,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

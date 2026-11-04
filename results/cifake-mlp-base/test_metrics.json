@@ -1,0 +1,17 @@
+{
+  "test": {
+    "accuracy": 0.8759,
+    "f1": 0.8755,
+    "precision": 0.8766,
+    "recall": 0.8744,
+    "roc_auc": 0.9501,
+    "n": 19962,
+    "gpu_mb": 19.0
+  },
+  "speed": {
+    "device": "NVIDIA GeForce RTX 4080",
+    "throughput_imgs_per_sec": 651814.1,
+    "latency_ms_p50": 0.37,
+    "latency_ms_p95": 1.0
+  }
+}
