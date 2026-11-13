@@ -1,0 +1,25 @@
+{
+  "best_epoch": 30,
+  "val": {
+    "accuracy": 0.7857,
+    "f1": 0.7885,
+    "precision": 0.7785,
+    "recall": 0.7987,
+    "roc_auc": 0.8739,
+    "n": 99995,
+    "gpu_mb": 2047.1,
+    "loss": 0.44198
+  },
+  "epochs_run": 30,
+  "stopped_early": false,
+  "train_minutes": 204.31,
+  "imgs_per_sec": 1946.1,
+  "gpu_mb": 2047.1,
+  "name": "artifact-cnn-lr3e-4",
+  "model": "cnn",
+  "dataset": "artifact",
+  "params": 389890,
+  "trainable": 389890,
+  "device": "NVIDIA GeForce RTX 4080",
+  "torch": "2.15.0+cu132"
+}

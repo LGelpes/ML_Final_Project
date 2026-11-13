@@ -31,3 +31,7 @@ runs/
 Thumbs.db
 .vscode/
 .idea/
+
+# Pipeline de entrenamiento
+exports/
+.pytest_cache/

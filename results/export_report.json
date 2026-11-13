@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "classes": [
+    "REAL",
+    "FAKE"
+  ],
+  "default_model": "resnet18",
+  "uncertain_band": 0.1,
+  "exported_at": "2026-11-03",
+  "preprocess_sha256": "f86577849a1b4c0e6b4ccd36a00f9d2da0f0ac05b027ded4557d38ffe7333b49",
+  "models": {
+    "mlp": {
+      "file": "mlp.onnx",
+      "version": "artifact-mlp-wd1e-2@2026-11-03",
+      "dataset": "artifact",
+      "input_size": 200,
+      "jpeg_quality": 90,
+      "input_name": "input",
+      "output_name": "logits",
+      "opset": 20,
+      "sha256": "ae92f335a37e86161c8cd775a91ccfcde485f9d3039c87d1d550d9c61beefd40",
+      "size_mb": 15.3,
+      "parity_max_abs_diff": 7.450580596923828e-08,
+      "best_epoch": 27,
+      "val_metrics": {
+        "accuracy": 0.6186,
+        "f1": 0.5876,
+        "precision": 0.6395,
+        "recall": 0.5436,
+        "roc_auc": 0.6637,
+        "n": 99995,
+        "gpu_mb": 415.2,
+        "loss": 0.64712
+      },
+      "test_metrics": {
+        "test": {
+          "accuracy": 0.6179,
+          "f1": 0.5876,
+          "precision": 0.6381,
+          "recall": 0.5445,
+          "roc_auc": 0.6629,
+          "n": 99995,
+          "gpu_mb": 369.3
+        },
+        "unseen": {
+          "accuracy": 0.6641,
+          "f1": 0.1256,
+          "precision": 0.0778,
+          "recall": 0.3257,
+          "roc_auc": 0.5461,
+          "n": 54000,
+          "gpu_mb": 369.3
+        },
+        "speed": {
+          "device": "NVIDIA GeForce RTX 4080",
+          "throughput_imgs_per_sec": 198272.9,
+          "latency_ms_p50": 0.91,
+          "latency_ms_p95": 1.34
+        }
+      },
+      "hyperparameters": {
+        "hidden_dims": [
+          512,
+          256,
+          128
+        ],
+        "dropout": 0.3,
+        "pool": 4,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "weight_decay": 0.01,
+        "epochs": 30,
+        "label_smoothing": 0.0
+      },
+      "splits": {
+        "test": 99995,
+        "train": 799933,
+        "unseen": 4000,
+        "val": 99995
+      },
+      "ort_cpu": {
+        "latency_ms_p50": 0.15,
+        "latency_ms_p95": 0.21
+      }
+    },
+    "cnn": {
+      "file": "cnn.onnx",
+      "version": "artifact-cnn-c64@2026-11-03",
+      "dataset": "artifact",
+      "input_size": 200,
+      "jpeg_quality": 90,
+      "input_name": "input",
+      "output_name": "logits",
+      "opset": 20,
+      "sha256": "68309bf27c1cbcc017270a933e9a46e2490d87637ccbce2b36c650e0d6dcd97e",
+      "size_mb": 5.9,
+      "parity_max_abs_diff": 2.1457672119140625e-06,
+      "best_epoch": 30,
+      "val_metrics": {
+        "accuracy": 0.8444,
+        "f1": 0.846,
+        "precision": 0.8374,
+        "recall": 0.8547,
+        "roc_auc": 0.9257,
+        "n": 99995,
+        "gpu_mb": 3979.7,
+        "loss": 0.35078
+      },
+      "test_metrics": {
+        "test": {
+          "accuracy": 0.8439,
+          "f1": 0.8456,
+          "precision": 0.8368,
+          "recall": 0.8545,
+          "roc_auc": 0.926,
+          "n": 99995,
+          "gpu_mb": 3054.5
+        },
+        "unseen": {
+          "accuracy": 0.8403,
+          "f1": 0.4625,
+          "precision": 0.3081,
+          "recall": 0.9275,
+          "roc_auc": 0.9524,
+          "n": 54000,
+          "gpu_mb": 3054.5
+        },
+        "speed": {
+          "device": "NVIDIA GeForce RTX 4080",
+          "throughput_imgs_per_sec": 3380.2,
+          "latency_ms_p50": 0.91,
+          "latency_ms_p95": 1.69
+        }
+      },
+      "hyperparameters": {
+        "base_channels": 64,
+        "dropout": 0.4,
+        "batch_size": 128,
+        "learning_rate": 0.001,
+        "weight_decay": 0.0001,
+        "epochs": 30,
+        "label_smoothing": 0.0
+      },
+      "splits": {
+        "test": 99995,
+        "train": 799933,
+        "unseen": 4000,
+        "val": 99995
+      },
+      "ort_cpu": {
+        "latency_ms_p50": 4.08,
+        "latency_ms_p95": 4.29
+      }
+    },
+    "resnet18": {
+      "file": "resnet18.onnx",
+      "version": "artifact-resnet18-lr1e-4@2026-11-03",
+      "dataset": "artifact",
+      "input_size": 200,
+      "jpeg_quality": 90,
+      "input_name": "input",
+      "output_name": "logits",
+      "opset": 20,
+      "sha256": "e20629d2973a1e46d3e8eabc00d412b0f577de699e8a9fdd696976356dfbecb9",
+      "size_mb": 42.7,
+      "parity_max_abs_diff": 7.62939453125e-06,
+      "best_epoch": 30,
+      "val_metrics": {
+        "accuracy": 0.925,
+        "f1": 0.9245,
+        "precision": 0.9305,
+        "recall": 0.9186,
+        "roc_auc": 0.9775,
+        "n": 99995,
+        "gpu_mb": 1472.0,
+        "loss": 0.52249
+      },
+      "test_metrics": {
+        "test": {
+          "accuracy": 0.9233,
+          "f1": 0.9228,
+          "precision": 0.929,
+          "recall": 0.9167,
+          "roc_auc": 0.9775,
+          "n": 99995,
+          "gpu_mb": 3057.4
+        },
+        "unseen": {
+          "accuracy": 0.928,
+          "f1": 0.6504,
+          "precision": 0.5079,
+          "recall": 0.9038,
+          "roc_auc": 0.9751,
+          "n": 54000,
+          "gpu_mb": 3057.4
+        },
+        "speed": {
+          "device": "NVIDIA GeForce RTX 4080",
+          "throughput_imgs_per_sec": 8052.1,
+          "latency_ms_p50": 3.49,
+          "latency_ms_p95": 4.47
+        }
+      },
+      "hyperparameters": {
+        "pretrained": true,
+        "freeze_backbone": false,
+        "dropout": 0.3,
+        "batch_size": 128,
+        "learning_rate": 0.0001,
+        "weight_decay": 0.0001,
+        "epochs": 30,
+        "label_smoothing": 0.0
+      },
+      "splits": {
+        "test": 99995,
+        "train": 799933,
+        "unseen": 4000,
+        "val": 99995
+      },
+      "ort_cpu": {
+        "latency_ms_p50": 3.08,
+        "latency_ms_p95": 3.53
+      }
+    }
+  }
+}

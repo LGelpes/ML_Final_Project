@@ -2,6 +2,8 @@
 
 Proyecto Final de **Machine Learning (Universidad de Montevideo)** — Detección de imágenes generadas por IA frente a fotografías reales empleando **CIFAKE** y **ArtiFact**.
 
+Clases: `REAL = 0`, `FAKE = 1`. `prob_ai = P(FAKE)` y todas las métricas (F1, precisión, recall, ROC-AUC) toman FAKE como clase positiva.
+
 ---
 
 ## Estructura del Proyecto
@@ -9,80 +11,59 @@ Proyecto Final de **Machine Learning (Universidad de Montevideo)** — Detecció
 ```text
 ML/
 ├── configs/
-│   └── config.yaml              # Configuración de datasets y rutas de modelos
+│   ├── config.yaml              # Datos, entrenamiento y modelos (todo se lee de acá)
+│   └── sweep.yaml               # Barrido de hiperparámetros (38 corridas, en orden de prioridad)
 ├── data/
-│   ├── raw/                     # Datasets: data/raw/cifake y data/raw/artifact
-│   └── processed/
-├── weights/                     # Pesos entrenados (.pt locales y .onnx para Docker/Lambda)
+│   ├── raw/                     # Datasets originales (ignorado por Git)
+│   └── processed/<dataset>/<split>/<REAL|FAKE>/<fuente>__<hash>.jpg   # imágenes ya armonizadas
+├── runs/<corrida>/              # config.json, metrics.csv, best.pt, last.pt, done.json, test_metrics.json
+├── exports/                     # ONNX, models.json y MODEL_CARD.md para la Lambda
 ├── src/
-│   ├── config.py                # Carga de configuración y constantes
+│   ├── config.py                # Configuración, clases y armado de la configuración de cada corrida
+│   ├── predict.py               # python -m src.predict <imagen>: prob_ai y label con los ONNX
 │   ├── data/
-│   │   ├── preprocessing.py     # Armonización JPEG y transformaciones
-│   │   └── dataset.py           # Carga de datos con ImageFolder y DataLoader
-│   ├── models/
-│   │   ├── __init__.py          # Factoría build_model("mlp" | "cnn" | "resnet18")
-│   │   ├── mlp.py               # Modelo 1: MLPClassifier
-│   │   ├── cnn.py               # Modelo 2: CustomCNN
-│   │   └── resnet.py            # Modelo 3: ResNet18Classifier
-│   ├── training/
-│   │   ├── metrics.py           # Accuracy, F1, ROC-AUC y memoria GPU
-│   │   ├── export_onnx.py       # Exportación de PyTorch (.pt) a ONNX (.onnx)
-│   │   ├── trainer.py           # Entrenamiento en GPU y guardado automático de .pt y .onnx
-│   │   └── train.py             # Script CLI de entrenamiento
-│   └── api/
-│       ├── schemas.py           # Esquema de petición Base64
-│       ├── inference.py         # Inferencia con ONNX Runtime (sin PyTorch)
-│       └── app.py               # Endpoints FastAPI (/predict/mlp, /predict/cnn, /predict/resnet18) + Mangum
-├── Dockerfile.train             # Imagen con PyTorch + CUDA para entrenar en GPU
-├── Dockerfile                   # Imagen ultraligera para AWS Lambda (ONNX Runtime)
-├── docker-compose.yml           # Ejecución de entrenamiento en GPU y prueba local de API
-├── .dockerignore                # Ignora data/ y archivos .pt al construir la imagen final
-├── requirements.txt             # Dependencias de entrenamiento GPU y exportación ONNX
-└── requirements-lambda.txt      # Dependencias de la imagen final para AWS Lambda
+│   │   ├── preprocess.py        # ÚNICO preprocesamiento (Pillow + NumPy); la Lambda lo copia tal cual
+│   │   ├── preprocessing.py     # harmonize_jpeg y get_transforms (volteo + tensor)
+│   │   ├── prepare_cifake.py    # CIFAKE: splits train / val (10 % de train) / test
+│   │   ├── prepare_artifact.py  # ArtiFact: lee directo del zip; peek | list | extract
+│   │   └── dataset.py           # ImageFolder con REAL = 0, FAKE = 1 y DataLoaders
+│   ├── models/                  # MLPClassifier, CustomCNN, ResNet18Classifier y Detector (normaliza dentro)
+│   └── training/
+│       ├── metrics.py           # Accuracy, F1, precisión, recall y ROC-AUC (FAKE positiva)
+│       ├── trainer.py           # Entrenamiento, early stopping por ROC-AUC y reanudación
+│       ├── train.py             # Una corrida
+│       ├── sweep.py             # Barrido reanudable
+│       ├── evaluate.py          # Test, generadores no vistos, aciertos por fuente y velocidad
+│       └── export_onnx.py       # ONNX (un solo archivo), models.json y MODEL_CARD.md
+├── tests/                       # pytest en CPU con datos sintéticos
+└── requirements.txt             # Sin PyTorch: se instala aparte desde pytorch.org
 ```
+
+La API (`/v1/predict`) vive en el repo de AWS; acá solo se entrena y se exporta.
 
 ---
 
-## 1. Entrenar con `Dockerfile.train` (usando GPU)
+## Uso (PowerShell, Python 3.14, desde la raíz del repo)
+
+PyTorch 2.15 se instala aparte desde [pytorch.org](https://pytorch.org/get-started/locally/); después:
 
 ```powershell
-# Construir la imagen de entrenamiento con soporte CUDA
-docker build -f Dockerfile.train -t ml-trainer .
+.venv\Scripts\python.exe -m pip install -r requirements.txt
+.venv\Scripts\python.exe -m pytest
 
-# Entrenar cualquiera de los 3 modelos montando data/ y weights/ (guarda .pt y .onnx en weights/)
-docker run --rm --gpus all -v ${PWD}/data:/app/data -v ${PWD}/weights:/app/weights ml-trainer python -m src.training.train --model mlp --dataset cifake --epochs 20
+.venv\Scripts\python.exe -m src.data.prepare_cifake --src D:\datasets\cifake-raw
+.venv\Scripts\python.exe -m src.data.prepare_artifact peek --zip D:\datasets\artifact-dataset.zip
+.venv\Scripts\python.exe -m src.data.prepare_artifact list --zip D:\datasets\artifact-dataset.zip
+.venv\Scripts\python.exe -m src.data.prepare_artifact extract --zip D:\datasets\artifact-dataset.zip --holdout <generador-1> <generador-2>
 
-docker run --rm --gpus all -v ${PWD}/data:/app/data -v ${PWD}/weights:/app/weights ml-trainer python -m src.training.train --model cnn --dataset cifake --epochs 20
+.venv\Scripts\python.exe -m src.training.train --model cnn --dataset cifake --set epochs=1 --name humo-cifake-cnn
+.venv\Scripts\python.exe -m src.training.sweep --dry-run
+.venv\Scripts\python.exe -m src.training.sweep
+.venv\Scripts\python.exe -m src.training.sweep --summary
 
-docker run --rm --gpus all -v ${PWD}/data:/app/data -v ${PWD}/weights:/app/weights ml-trainer python -m src.training.train --model resnet18 --dataset cifake --epochs 20
-```
-*(Opcionalmente también puedes usar `docker compose run --rm trainer python -m src.training.train --model mlp --dataset cifake`).*
-
----
-
-## 2. Construir y Subir Manualmente `Dockerfile` a Amazon ECR
-
-Una vez que `weights/` tenga los archivos `mlp.onnx`, `cnn.onnx` y `resnet18.onnx`:
-
-```powershell
-# 1. Autenticar Docker con AWS ECR
-aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com
-
-# 2. Construir la imagen final de AWS Lambda (usa Dockerfile por defecto)
-docker build --platform linux/amd64 --provenance=false -t ml-lambda .
-
-# 3. Etiquetar la imagen
-docker tag ml-lambda:latest <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/<REPO_NAME>:latest
-
-# 4. Subir la imagen a ECR
-docker push <ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com/<REPO_NAME>:latest
+.venv\Scripts\python.exe -m src.training.evaluate runs\<corrida-elegida>
+.venv\Scripts\python.exe -m src.training.export_onnx runs\<mlp> runs\<cnn> runs\<resnet18> --out exports\final
+.venv\Scripts\python.exe -m src.predict foto.jpg --models-dir exports\final
 ```
 
----
-
-## 3. Endpoints Expuestos en AWS Lambda + API Gateway
-
-* `GET /health`
-* `POST /predict/mlp` — Body JSON: `{"image_base64": "..."}`
-* `POST /predict/cnn` — Body JSON: `{"image_base64": "..."}`
-* `POST /predict/resnet18` — Body JSON: `{"image_base64": "..."}`
+ResNet-18 se usa solo con ArtiFact. Si una preparación ya existe, `prepare_*` pide `--force` para rehacerla.

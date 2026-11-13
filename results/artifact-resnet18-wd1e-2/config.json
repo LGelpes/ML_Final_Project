@@ -1,0 +1,26 @@
+{
+  "model": "resnet18",
+  "dataset": "artifact",
+  "image_size": 200,
+  "jpeg_quality": 90,
+  "processed_dir": "D:\\Nacho\\Desktop\\ML_Final_Project\\data\\processed\\artifact",
+  "seed": 42,
+  "model_args": {
+    "pretrained": true,
+    "freeze_backbone": false,
+    "dropout": 0.3
+  },
+  "train": {
+    "device": "cuda",
+    "mixed_precision": true,
+    "batch_size": 128,
+    "epochs": 30,
+    "learning_rate": 0.0003,
+    "weight_decay": 0.01,
+    "warmup_epochs": 1,
+    "label_smoothing": 0.0,
+    "num_workers": 6,
+    "early_stopping_patience": 5,
+    "limit": null
+  }
+}

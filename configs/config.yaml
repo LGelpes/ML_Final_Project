@@ -7,27 +7,36 @@ project:
 datasets:
   cifake:
     root_dir: "data/raw/cifake"
+    processed_dir: "data/processed/cifake"
     image_size: 32
     jpeg_quality: 90
+    val_fraction: 0.1
   artifact:
     root_dir: "data/raw/artifact"
-    image_size: 224
+    processed_dir: "data/processed/artifact"
+    image_size: 200
     jpeg_quality: 90
 
 training:
   device: "cuda"
   mixed_precision: true
-  batch_size: 64
-  epochs: 20
+  batch_size: 128
+  epochs: 30
   learning_rate: 0.001
   weight_decay: 0.0001
-  num_workers: 4
+  warmup_epochs: 1
+  label_smoothing: 0.0
+  num_workers: 6
   early_stopping_patience: 5
+  limit: null
 
 models:
   mlp:
     hidden_dims: [512, 256, 128]
     dropout: 0.3
+    pool: 1
+    by_dataset:
+      artifact: {pool: 4}
     weights_path: "weights/mlp.pt"
     onnx_path: "weights/mlp.onnx"
   cnn:
